@@ -31,11 +31,11 @@ export const fStore = getFirestore(app);
 export const fStorage = getStorage(app);
 
 export const provider = new GoogleAuthProvider();
-export const signInWithGoogle = () => {
+export const signInWithGoogle = async () => {
   let user;
-  signInWithPopup(auth, provider)
+  await signInWithPopup(auth, provider)
     .then((result) => {
-      console.log(result);
+      console.log(result.user);
 
       user = result.user;
     })
