@@ -1,5 +1,6 @@
 import React from "react";
-import "./style.scss";
+import "./sign-in-btn.styles.scss";
+
 
 export default function SignInBtn(){
     return <div className="signInBtn">
