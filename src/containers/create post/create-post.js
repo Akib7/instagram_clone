@@ -12,6 +12,7 @@ export default function CreatePost() {
   const [caption, setCaption] = useState("");
 
   const handleChange = () => {};
+  const handleUpload = () => {};
   return (
     <div className="createPost">
       {user ? (
@@ -25,17 +26,27 @@ export default function CreatePost() {
               onChange={(e) => setCaption(e.target.value)}
             ></textarea>
           </div>
-
-          <div className="createPost__imageUpload">
-            <label htmlFor="fileUpload">
-              <AddAPhotoIcon style={{ cursor: "pointer", fontSize: "20px" }} />
-            </label>
-            <input
-              id="fileUpload"
-              type="file"
-              accept="image/*"
-              onChange={handleChange}
-            />
+          <div className="createPost__loggedInBottom">
+            <div className="createPost__imageUpload">
+              <label htmlFor="fileUpload">
+                <AddAPhotoIcon
+                  style={{ cursor: "pointer", fontSize: "20px" }}
+                />
+              </label>
+              <input
+                id="fileUpload"
+                type="file"
+                accept="image/*"
+                onChange={handleChange}
+              />
+            </div>
+            <button
+              className="createPost__uploadBtn"
+              onClick={handleUpload}
+              style={{ color: caption ? "#000" : "lightgrey" }}
+            >
+              Upload
+            </button>
           </div>
         </div>
       ) : (
