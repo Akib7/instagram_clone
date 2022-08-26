@@ -1,6 +1,10 @@
-.createPost{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding:  24px;
+.createPost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+
+  .createPost__imageUpload input {
+    display: none;
+  }
 }

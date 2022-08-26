@@ -4,6 +4,8 @@ import { UserContext } from "../../contexts/user";
 
 import "./create-post.styles.scss";
 
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+
 export default function CreatePost() {
   const [user, setUser] = useContext(UserContext).user;
 
@@ -23,8 +25,18 @@ export default function CreatePost() {
               onChange={(e) => setCaption(e.target.value)}
             ></textarea>
           </div>
-          <input type="file" accept="image/*" onChange={handleChange} />
-          <div></div>
+
+          <div className="createPost__imageUpload">
+            <label htmlFor="fileUpload">
+              <AddAPhotoIcon style={{ cursor: "pointer", fontSize: "20px" }} />
+            </label>
+            <input
+              id="fileUpload"
+              type="file"
+              accept="image/*"
+              onChange={handleChange}
+            />
+          </div>
         </div>
       ) : (
         <div>
