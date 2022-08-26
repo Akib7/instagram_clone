@@ -11,7 +11,20 @@ export default function CreatePost() {
 
   const [caption, setCaption] = useState("");
 
-  const handleChange = () => {};
+  const [image, setImage] = useState(null);
+
+  const handleChange = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+
+      var selectedImageSrc = URL.createObjectURL(e.target.files[0]);
+
+      var imagePreview = document.getElementById("image-preview");
+
+      imagePreview.src = selectedImageSrc;
+      imagePreview.style.display = "block";
+    }
+  };
   const handleUpload = () => {};
   return (
     <div className="createPost">
@@ -25,6 +38,10 @@ export default function CreatePost() {
               value={caption}
               onChange={(e) => setCaption(e.target.value)}
             ></textarea>
+
+            <div className="createPost__imagePreview">
+              <img id="image-preview" alt="" />
+            </div>
           </div>
           <div className="createPost__loggedInBottom">
             <div className="createPost__imageUpload">
