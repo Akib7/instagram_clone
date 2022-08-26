@@ -1,7 +1,7 @@
 // import firebase from "firebase";
 
 import { initializeApp } from "firebase/app";
-import { getStorage } from "firebase/storage";
+import { getStorage, ref } from "firebase/storage";
 import { getDatabase } from "firebase/database";
 import { getFirestore, getDoc, setDoc, doc } from "firebase/firestore/lite";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -29,6 +29,8 @@ export const auth = getAuth(app);
 export const fbDatabase = getDatabase(app);
 export const fStore = getFirestore(app);
 export const fStorage = getStorage(app);
+
+export const storage = getStorage();
 
 export const provider = new GoogleAuthProvider();
 export const signInWithGoogle = async () => {
