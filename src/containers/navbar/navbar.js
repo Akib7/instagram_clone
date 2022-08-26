@@ -4,11 +4,15 @@ import { UserContext } from "../../contexts/user";
 import "./navbar.styles.scss";
 
 export default function Navbar() {
-  const { user, setUser } = useContext(UserContext).user;
+  const [user, setUser] = useContext(UserContext).user;
   return (
     <div className="navbar">
       <p>ReactSocial</p>
-      {user ? <img src={user.photoURL} /> : <SignInBtn />}
+      {user ? (
+        <img className="navbar__img" src={user.photoURL} />
+      ) : (
+        <SignInBtn />
+      )}
     </div>
   );
 }

@@ -4,7 +4,8 @@ import { signInWithGoogle } from "../../firebase";
 import "./sign-in-btn.styles.scss";
 
 export default function SignInBtn() {
-  const { setUser } = useContext(UserContext).user;
+  const [user, setUser] = useContext(UserContext).user;
+
   const signInBtnClick = async () => {
     let userBySignIn = await signInWithGoogle();
 
@@ -12,6 +13,7 @@ export default function SignInBtn() {
 
     console.log(userBySignIn);
   };
+
   return (
     <div className="signInBtn" onClick={signInBtnClick}>
       <p>Sign in with Google</p>
