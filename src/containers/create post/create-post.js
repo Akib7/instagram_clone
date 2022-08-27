@@ -5,10 +5,11 @@ import { UserContext } from "../../contexts/user";
 import "./create-post.styles.scss";
 
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import { fbDatabase, fStorage, fStore, storage } from "../../firebase";
+import { fbDatabase, fStore, storage } from "../../firebase";
 import makeid from "../../helper/functions";
 
-import { getStorage, ref } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { collection, addDoc, Timestamp, setDoc } from "firebase/firestore";
 
 export default function CreatePost() {
   const [user, setUser] = useContext(UserContext).user;
@@ -30,73 +31,87 @@ export default function CreatePost() {
       imagePreview.style.display = "block";
     }
   };
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (image) {
       var imageName = makeid(10);
-      var uploadTask = ref(storage, `images/${imageName}.jpg`);
+      // var uploadTask = ref(storage, `images/${imageName}.jpg`).put(image);
+      const storageRef = ref(storage, `images/${imageName}.jpg`);
 
-      const next = (snapShot) => {
-        // takes the snapShot of each step of the process
-        console.log(snapShot);
-        const progress = Math.round(
-          (snapShot.bytesTransferred / snapShot.totalBytes) * 100
-        );
-        setProgress(progress);
-      };
-      // error handling
-      const error = (error) => {
-        //catches the errors
-        console.log(error);
-      };
-      const complete = () => {
-        // gets the functions from storage refences the image storage in firebase by the children
-        // gets the download url then sets the image from firebase as the value for the imgUrl key:
-        const spaceRef = ref(storage, `${imageName}.jpg`);
-        spaceRef.getDownloadURL().then((imageUrl) => {
-          fbDatabase.collection("posts").add({
-            timestamp: fStore.FieldValue.serverTimestamp(),
-            caption: caption,
-            photoUrl: imageUrl,
-            username: user.email.replace("@gmail.com", ""),
-            photoUrl: user.photoURL,
-          });
-        });
+      const metadata = {
+        contentType: "image/jpeg",
       };
 
-      uploadTask.on(storage.TaskEvent.STATE_CHANGED, {
-        next: next,
-        error: error,
-        complete: complete,
-      });
-
-      //   uploadTask.on(
-      //     "state_changed",
-      //     (snapshot) => {
-      //       // Progress function, 1% 2% ...
-
-      //       const progress = Math.round(
-      //         (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      //       );
-
-      //       setProgress(progress);
-      //     },
-      //     (error) => {
-      //       console.log(error);
-      //     },
-      //     () => {
-      //       //get download URL and upload the post info
-      //       const spaceRef = ref(storage, `${imageName}.jpg`);
-      //       spaceRef.getDownloadURL().then((imageUrl) => {
-      //         fbDatabase.collection("posts").add({
-      //           timestamp: fStore.FieldValue.serverTimestamp(),
-      //           caption: caption,
-      //           photoUrl: imageUrl,
-      //           username: user.email.replace("@gmail.com", ""),
-      //           photoUrl: user.photoURL,
-      //         });
-      //       });
-      //     }
+      const uploadTask = uploadBytesResumable(storageRef, image, metadata);
+      // const next = (snapShot) => {
+      //   // takes the snapShot of each step of the process
+      //   console.log(snapShot);
+      //   const progress = Math.round(
+      //     (snapShot.bytesTransferred / snapShot.totalBytes) * 100
       //   );
+      //   setProgress(progress);
+      // };
+      // // error handling
+      // const error = (error) => {
+      //   //catches the errors
+      //   console.log(error);
+      // };
+      // const complete = () => {
+      //   // gets the functions from storage refences the image storage in firebase by the children
+      //   // gets the download url then sets the image from firebase as the value for the imgUrl key:
+      //   const spaceRef = ref(storage, `${imageName}.jpg`);
+      //   spaceRef.getDownloadURL().then((imageUrl) => {
+      //     fbDatabase.collection("posts").add({
+      //       timestamp: fStore.FieldValue.serverTimestamp(),
+      //       caption: caption,
+      //       photoUrl: imageUrl,
+      //       username: user.email.replace("@gmail.com", ""),
+      //       photoUrl: user.photoURL,
+      //     });
+      //   });
+      // };
+
+      // uploadTask.on(storage.TaskEvent.STATE_CHANGED, {
+      //   next: next,
+      //   error: error,
+      //   complete: complete,
+      // });
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Progress function, 1% 2% ...
+
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+
+          setProgress(progress);
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          //get download URL and upload the post info
+          const spaceRef = ref(storage, `${imageName}.jpg`);
+          getDownloadURL(spaceRef).then(async (imageUrl) => {
+            await setDoc(collection(fStore, "posts"), {
+              timestamp: Timestamp.now(),
+              caption: caption,
+              photoUrl: imageUrl,
+              username: user.email.replace("@gmail.com", ""),
+              photoUrl: user.photoURL,
+            });
+
+            // fbDatabase.collection("posts").add({
+            //   timestamp: fStore.FieldValue.serverTimestamp(),
+            //   caption: caption,
+            //   photoUrl: imageUrl,
+            //   username: user.email.replace("@gmail.com", ""),
+            //   photoUrl: user.photoURL,
+            // });
+          });
+        }
+      );
     }
   };
   return (
