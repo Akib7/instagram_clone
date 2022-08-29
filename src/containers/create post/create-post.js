@@ -67,7 +67,7 @@ export default function CreatePost() {
               caption: caption,
               photoUrl: imageUrl,
               username: user.email.replace("@gmail.com", ""),
-              photoUrl: user.photoURL,
+              profileUrl: user.photoURL,
             });
           });
         }
