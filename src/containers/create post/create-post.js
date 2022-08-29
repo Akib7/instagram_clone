@@ -70,6 +70,10 @@ export default function CreatePost() {
               profileUrl: user.photoURL,
             });
           });
+
+          setCaption("");
+          setProgress(0);
+          setImage(null);
         }
       );
     }

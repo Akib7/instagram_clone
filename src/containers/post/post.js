@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import Commment from "../../components/comment/comment";
 import "./post.styles.scss";
 
 export default function Post({
@@ -31,6 +32,14 @@ export default function Post({
           {caption}
         </p>
       </div>
+
+      {comments ? (
+        comments.map((comment) => (
+          <Commment username={comment.username} caption={comment.comment} />
+        ))
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
