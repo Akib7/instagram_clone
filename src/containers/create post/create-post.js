@@ -42,39 +42,7 @@ export default function CreatePost() {
       };
 
       const uploadTask = uploadBytesResumable(storageRef, image, metadata);
-      // const next = (snapShot) => {
-      //   // takes the snapShot of each step of the process
-      //   console.log(snapShot);
-      //   const progress = Math.round(
-      //     (snapShot.bytesTransferred / snapShot.totalBytes) * 100
-      //   );
-      //   setProgress(progress);
-      // };
-      // // error handling
-      // const error = (error) => {
-      //   //catches the errors
-      //   console.log(error);
-      // };
-      // const complete = () => {
-      //   // gets the functions from storage refences the image storage in firebase by the children
-      //   // gets the download url then sets the image from firebase as the value for the imgUrl key:
-      //   const spaceRef = ref(storage, `${imageName}.jpg`);
-      //   spaceRef.getDownloadURL().then((imageUrl) => {
-      //     fbDatabase.collection("posts").add({
-      //       timestamp: fStore.FieldValue.serverTimestamp(),
-      //       caption: caption,
-      //       photoUrl: imageUrl,
-      //       username: user.email.replace("@gmail.com", ""),
-      //       photoUrl: user.photoURL,
-      //     });
-      //   });
-      // };
-
-      // uploadTask.on(storage.TaskEvent.STATE_CHANGED, {
-      //   next: next,
-      //   error: error,
-      //   complete: complete,
-      // });
+      console.log(uploadTask.snapshot);
 
       uploadTask.on(
         "state_changed",
@@ -92,23 +60,15 @@ export default function CreatePost() {
         },
         () => {
           //get download URL and upload the post info
-          const spaceRef = ref(storage, `${imageName}.jpg`);
-          getDownloadURL(spaceRef).then(async (imageUrl) => {
-            await setDoc(collection(fStore, "posts"), {
+
+          getDownloadURL(uploadTask.snapshot.ref).then((imageUrl) => {
+            addDoc(collection(fStore, "posts"), {
               timestamp: Timestamp.now(),
               caption: caption,
               photoUrl: imageUrl,
               username: user.email.replace("@gmail.com", ""),
               photoUrl: user.photoURL,
             });
-
-            // fbDatabase.collection("posts").add({
-            //   timestamp: fStore.FieldValue.serverTimestamp(),
-            //   caption: caption,
-            //   photoUrl: imageUrl,
-            //   username: user.email.replace("@gmail.com", ""),
-            //   photoUrl: user.photoURL,
-            // });
           });
         }
       );
