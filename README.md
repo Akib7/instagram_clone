@@ -1,4 +1,7 @@
 # Getting Started with Create React App
+You can try this app on your browser by going to https://react-insta-1d4f3.web.app
+
+This is a project which has the CRUD operations with firebase. Tried to create the instagram clone with it.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
