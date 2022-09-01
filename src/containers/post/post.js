@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Commment from "../../components/comment/comment";
 
 import { ref, deleteObject } from "firebase/storage";
@@ -7,6 +7,7 @@ import { doc, deleteDoc, collection } from "firebase/firestore";
 import "./post.styles.scss";
 import { fStore, storage } from "../../firebase";
 import CommentInput from "../../components/comment-input/comment";
+import { UserContext } from "../../contexts/user";
 
 export default function Post({
   username,
@@ -16,6 +17,8 @@ export default function Post({
   comments,
   id,
 }) {
+  const [user, setUser] = useContext(UserContext).user;
+
   const deletePost = () => {
     //delete the image from firebase storage
 
@@ -76,7 +79,7 @@ export default function Post({
         <></>
       )}
 
-      <CommentInput comments={comments} id={id} />
+      {user ? <CommentInput comments={comments} id={id} /> : <></>}
     </div>
   );
 }
