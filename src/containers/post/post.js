@@ -39,7 +39,7 @@ export default function Post({
         console.log("Deleted successfully");
       })
       .catch((error) => {
-        console.log(`Erro ${error}`);
+        console.log(`Error ${error}`);
       });
   };
 
@@ -68,8 +68,6 @@ export default function Post({
         </p>
       </div>
 
-      <CommentInput comments={comments} id={id} />
-
       {comments ? (
         comments.map((comment) => (
           <Commment username={comment.username} caption={comment.comment} />
@@ -77,6 +75,8 @@ export default function Post({
       ) : (
         <></>
       )}
+
+      <CommentInput comments={comments} id={id} />
     </div>
   );
 }
