@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { fStore } from "../../firebase";
 import Post from "../post/post";
-import { collection, doc, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 
 import "./feed.styles.scss";
 

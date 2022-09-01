@@ -1,6 +1,11 @@
 import React, { useContext, useState } from "react";
 import Commment from "../../components/comment/comment";
+
+import { ref, deleteObject } from "firebase/storage";
+import { doc, deleteDoc, collection } from "firebase/firestore";
+
 import "./post.styles.scss";
+import { fStore, storage } from "../../firebase";
 
 export default function Post({
   username,
@@ -10,6 +15,33 @@ export default function Post({
   comments,
   id,
 }) {
+  const deletePost = () => {
+    //delete the image from firebase storage
+
+    //get reference to the image file we would like to delete
+    const storageRef = ref(storage, photoURL);
+
+    //delete the file
+    deleteObject(storageRef)
+      .then(() => {
+        console.log("Deleted successfully");
+      })
+      .catch((error) => {
+        console.log(`Erro ${error}`);
+      });
+
+    //2  delete the post info from firebase firestore
+    const usersCollectionRef = collection(fStore, "posts");
+
+    deleteDoc(doc(usersCollectionRef, id))
+      .then(() => {
+        console.log("Deleted successfully");
+      })
+      .catch((error) => {
+        console.log(`Erro ${error}`);
+      });
+  };
+
   return (
     <div className="post">
       <div className="post__header">
@@ -17,7 +49,9 @@ export default function Post({
           <img className="post__profilePicture" src={profileUrl} />
           <p style={{ marginLeft: "8px" }}>{username}</p>
         </div>
-        <button className="post__deleteBtn">Delete</button>
+        <button onClick={deletePost} className="post__deleteBtn">
+          Delete
+        </button>
       </div>
 
       <div className="post__center">

@@ -5,11 +5,11 @@ import { UserContext } from "../../contexts/user";
 import "./create-post.styles.scss";
 
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import { fbDatabase, fStore, storage } from "../../firebase";
+import { fStore, storage } from "../../firebase";
 import makeid from "../../helper/functions";
 
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { collection, addDoc, Timestamp, setDoc } from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 
 export default function CreatePost() {
   const [user, setUser] = useContext(UserContext).user;
