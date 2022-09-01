@@ -118,7 +118,7 @@ export default function CreatePost() {
                 cursor: "pointer",
               }}
             >
-              {`Upload ${progress != 0 ? progress : ""}`}
+              {`Upload ${progress != 0 ? progress + "%" : ""}`}
             </button>
           </div>
         </div>
