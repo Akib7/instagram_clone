@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import Commment from "../../components/comment/comment";
 
 import { ref, deleteObject } from "firebase/storage";
@@ -6,6 +6,7 @@ import { doc, deleteDoc, collection } from "firebase/firestore";
 
 import "./post.styles.scss";
 import { fStore, storage } from "../../firebase";
+import CommentInput from "../../components/comment-input/comment";
 
 export default function Post({
   username,
@@ -66,6 +67,8 @@ export default function Post({
           {caption}
         </p>
       </div>
+
+      <CommentInput comments={comments} id={id} />
 
       {comments ? (
         comments.map((comment) => (
