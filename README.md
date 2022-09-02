@@ -4,8 +4,10 @@ You can try this app on your browser by going to https://react-insta-1d4f3.web.a
 This is a project which has the CRUD operations with firebase. Tried to create the instagram clone with it.
 
 ![react](https://user-images.githubusercontent.com/75217894/188119464-b4215f1f-1df6-4bc7-bca0-2d5c1c9454ba.PNG)
+
 ![goku](https://user-images.githubusercontent.com/75217894/188119587-10d9f17f-7528-4b1d-887c-8aa9171aa925.PNG)
-![reactsocial](https://user-images.githubusercontent.com/75217894/188119599-2505a8ea-b317-4c14-a066-5854e60ff658.PNG)
+
+![goku2](https://user-images.githubusercontent.com/75217894/188119867-eedbf755-6d8a-4f1f-8b14-9af23b89267c.PNG)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
